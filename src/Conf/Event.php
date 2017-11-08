@@ -15,6 +15,7 @@ use Core\Component\Version\Control;
 use Core\Core;
 use Core\Http\Request;
 use Core\Http\Response;
+use Core\Component\Logger;
 
 class Event extends AbstractEvent
 {

@@ -5,4 +5,5 @@
 src/swoole_log.txt
 vendor/
 Log/
+src/.idea/
 composer.lock
