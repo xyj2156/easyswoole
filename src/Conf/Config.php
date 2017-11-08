@@ -44,13 +44,14 @@ class Config
                 "SERVER_NAME"=>"",
                 "PORT"=>9501,
                 "RUN_MODE"=>SWOOLE_PROCESS,//不建议更改此项
-                "SERVER_TYPE"=>\Core\Swoole\Config::SERVER_TYPE_WEB,//
+                "SERVER_TYPE"=>\Core\Swoole\Config::SERVER_TYPE_WEB_SOCKET,//
                 'SOCKET_TYPE'=>SWOOLE_TCP,//当SERVER_TYPE为SERVER_TYPE_SERVER模式时有效
                 "CONFIG"=>array(
                     'task_worker_num' => 8, //异步任务进程
                     "task_max_request"=>10,
                     'max_request'=>5000,//强烈建议设置此配置项
                     'worker_num'=>8,
+                    'daemonize' => 1,
                 ),
             ),
             "DEBUG"=>array(

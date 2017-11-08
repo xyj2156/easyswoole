@@ -4,4 +4,5 @@
 .idea/vcs.xml
 src/swoole_log.txt
 vendor/
+Log/
 composer.lock

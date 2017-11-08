@@ -12,6 +12,7 @@ namespace Conf;
 use Core\AbstractInterface\AbstractEvent;
 use Core\Component\Di;
 use Core\Component\Version\Control;
+use Core\Core;
 use Core\Http\Request;
 use Core\Http\Response;
 
@@ -32,6 +33,9 @@ class Event extends AbstractEvent
     function beforeWorkerStart(\swoole_server $server)
     {
         // TODO: Implement beforeWorkerStart() method.
+        $conf = \Conf\Config::getInstance();
+        if($conf -> getConf('SERVER.SERVER_TYPE') == \Core\Swoole\Config::SERVER_TYPE_WEB_SOCKET)
+            $server -> on('message', array($this, 'onMessage'));
     }
 
     function onStart(\swoole_server $server)
@@ -82,5 +86,22 @@ class Event extends AbstractEvent
     function onWorkerError(\swoole_server $server, $worker_id, $worker_pid, $exit_code)
     {
         // TODO: Implement onWorkerError() method.
+    }
+
+    function onMessage (\swoole_websocket_server $server, \swoole_websocket_frame $frame){
+        // TODO： 接受 web socket 传过来的 信息
+        Logger::getInstance()->console("receive data ".$frame->data);
+        $json = json_decode($frame->data,1);
+        if(is_array($json)){
+            if($json['action'] == 'who'){
+                //可以获取bind后的uid
+                //var_dump($server->connection_info($frame->fd));
+                $server->push($frame->fd,"your fd is ".$frame->fd);
+            }else{
+                $server->push($frame->fd,"this is server and you say :".$json['content']);
+            }
+        }else{
+            $server->push($frame->fd,"command error");
+        }
     }
 }

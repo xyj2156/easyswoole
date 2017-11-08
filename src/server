@@ -143,8 +143,10 @@ function startServer($options){
         $conf->setConf("SERVER.CONFIG.open_cpu_affinity",true);
     }
     $label = 'false';
-    if(isset($options['d'])){
+    if(isset($options['d']) || $conf -> getConf('SERVER.CONFIG.daemonize')){
         $conf->setConf("SERVER.CONFIG.daemonize",true);
+        $pidFile = $conf -> getConf('SERVER.CONFIG.daemonize');
+        echo "pid:            {$pidFile}\n";
         $label = 'true';
     }else{
         \Conf\Config::getInstance()->setConf("SERVER.CONFIG.pid_file",null);
